@@ -18,6 +18,8 @@ public class Datumserweiterung {
 		int calculationNumber;
 		int modulo;
 		int febFactor;
+		int oneYearTooMany = 0;
+		int oneMonthTooMany = 0;
 		
 		
 		
@@ -55,14 +57,6 @@ public class Datumserweiterung {
 		// Minutenzahl m2
 		m2 = getNumber("Minutenzahl", "m2", 0, 40000);
 		
-		/*
-		System.out.println("j: " +j);
-		System.out.println("m: " +m);
-		System.out.println("t: " +t);
-		System.out.println("s: " +s);
-		System.out.println("m1: " +m1);
-		System.out.println("m2: " +m2);
-		*/
 		
 		System.out.println();
 		System.out.println("Eingabe:");
@@ -77,15 +71,25 @@ public class Datumserweiterung {
 		calculationNumber = s + calculationNumber / 60;
 		s = calculationNumber % 24; 
 		
+			
 		calculationNumber = t + calculationNumber / 24;
 		t = calculationNumber % febFactor; 
+		if (t == 0) {
+			t = febFactor;
+			oneMonthTooMany = 1;
+		}
 		
-		calculationNumber = m + calculationNumber / febFactor;
+		
+		calculationNumber = m + calculationNumber / febFactor - oneMonthTooMany;
 		m = calculationNumber % 12; 
+		if (m == 0) {
+			m = 12;
+			oneYearTooMany = 1;
+		}
 		
-		calculationNumber = j + calculationNumber / 12;
+		
+		calculationNumber = j + calculationNumber / 12 - oneYearTooMany;
 		j = calculationNumber; 
-		
 		
 		System.out.println("Ausgabe:");
 		System.out.println(j +" " +m +" " +t +" " +s +" " +m1);
